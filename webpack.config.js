@@ -1,36 +1,74 @@
-var webpack = require('webpack');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
-var path = require("path");
 var proxy = require('http-proxy-middleware');
+const webpack = require('webpack');
+// var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.join(__dirname, 'build'),
-    publicPath: "build/",
-    filename: 'bundle.js'
-  },
-  resolve: {
-    // 第一个参数是有空格的
-    extensions: [' ', '.js', '.jsx'],
-  },
-  // babel-preset-es2015 babel-preset-react
-  module: {
-    loaders:[
-      { test: /\.jsx$/, exclude: /node_modules/, loader: 'jsx-loader!babel-loader' },
-      { test: /\.js$/, exclude:/node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0'},
-    ]
-  },
-  devServer: {
-      proxy: {
-        '/api': { // api表示当前项目请求的key
-          target: 'http://api.douban.com', // 代理服务器路径
-          pathRewrite: {'^/api' : '/'}, // 重写路径
-          changeOrigin: true
+
+module.exports  ={
+    entry:'./index.js',
+    output:{
+        publicPath:'',
+        filename:'bundle.js'
+    },
+    module:{
+        loaders:[
+            {
+                test:/\.js$/,exclude:/node_modules/,
+                loader:'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0'
+            }
+            /* {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {loader: "css-loader"}
+                    ],
+                })
+            },
+            {
+                test: /\.(less)$/,
+                exclude: /node_modules/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {loader: "css-loader"},
+                        {loader: "less-loader"},
+                    ],
+                })
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]?[hash]'
+                }
+              } */
+        ]
+    },
+    devServer:{
+        proxy:{
+            '/api':{
+                target: 'http://api.douban.com',
+                pathRewrite: {'^/api': '/'},
+                changeOrigin: true
+            }
         }
-      }
     }
- /*  plugins: [
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' })
-  ] */
-};
+    /* plugins: [
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        new webpack.optimize.UglifyJsPlugin({
+            output: {
+                comments: false
+            }
+        }),
+        new ExtractTextPlugin("styles.css"),  
+    ] */
+}
+
+// es2015 -- babel-preset-es2015
+// react -- babel-preset-react
+// babel-loader --- babel-core babel-loader
+// webpack-dev-server
