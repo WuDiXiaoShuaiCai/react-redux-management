@@ -1,2 +1,2 @@
 # react-redux-management
-a simple management based on react-redux
+a simple management based on react-redux  
