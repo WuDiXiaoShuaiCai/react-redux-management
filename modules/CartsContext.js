@@ -25,7 +25,7 @@ class Carts extends Component{
 const getValue =state=>{
   // console.log(state.carts,'<----------state.carts')
 	return {
-		carts: state.carts
+		carts: state.reducer.carts
   }
 }
 
